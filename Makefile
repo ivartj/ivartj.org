@@ -2,6 +2,9 @@ pics_ext = jpg png
 assets_ext = css $(pics_ext)
 tpl_ext = $(patsubst tpl/%.tpl,%,$(wildcard tpl/*.tpl))
 
+tpl = $(wildcard tpl/*.tpl)
+tpl_no = $(wildcard tpl/no/*.tpl)
+
 pics_src = $(shell find pics -name '' $(patsubst %,-or -name *.%,$(pics_ext)))
 pics_dest = $(patsubst %,dest/%,$(pics_src))
 
@@ -20,18 +23,17 @@ no-tpl: $(no_tpl_dest)
 
 en-tpl: $(en_tpl_dest)
 
-# TODO: be more specific regarding dependencies
-dest/no/%.html: $(no_tpl_src)
+dest/no/%.html: no/%.* ${tpl} ${tpl_no}
 	mkdir -p $(dir $@)
-	tpl -T tpl/no -T tpl -D doc-path=$(patsubst dest/no/%,%,$@) $(filter $(patsubst dest/%.html,%,$@).%,$(no_tpl_src)) > $@
+	tpl -T tpl/no -T tpl -D doc-path=$(patsubst dest/no/%,%,$@) $< > $@
 
-dest/en/%.html: $(en_tpl_src)
+dest/en/%.html: en/%.* ${tpl}
 	mkdir -p $(dir $@)
-	tpl -T tpl -D doc-path=$(patsubst dest/en/%,%,$@) $(filter $(patsubst dest/%.html,%,$@).%,$(en_tpl_src)) > $@
+	tpl -T tpl -D doc-path=$(patsubst dest/en/%,%,$@) $< > $@
 
 assets: $(assets_dest)
 
-dest/%.css: tpl/%.css
+dest/%: tpl/%
 	mkdir -p $(dir $@)
 	cp $^ $@
 
