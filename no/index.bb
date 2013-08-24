@@ -11,6 +11,4 @@ title: Ivars hjemmeside
 [url=http://news.ycombinator.com/user?id=IvarTJ]Hacker News (IvarTJ)[/url]
 [url=http://twitter.com/IvarTJ]Twitter (IvarTJ)[/url]
 
-[align=center]
-[img]/pics/sketch.png[/img]
-[/align]
+[align=center][img]/pics/sketch.png[/img][/align]

@@ -1,4 +1,5 @@
 title: bbcode
+description: Command-line tool to process BBCode.
 
 [b]bbcode[/b] is a command-line tool I made in C to generate the HTML content of this website. It takes as input files written in the BBCode markup, used on many web forums, and writes HTML that can be included in a HTML document, like the one you are reading.
 

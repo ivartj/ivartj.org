@@ -1,8 +1,8 @@
 -template: body.html
 title: Ingen tittel
+description: Hjemmesiden til Ivar Jarlsby.
 lang: no
 lang-other: en
-lang-description: Hjemmesiden til Ivar Trygve Jarlsby.
 lang-about-me: om meg
 
 <[...]>

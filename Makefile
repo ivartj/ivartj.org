@@ -37,11 +37,11 @@ dest/%: tpl/%
 	mkdir -p $(dir $@)
 	cp $^ $@
 
+pics: $(pics_dest)
+
 dest/pics/%: pics/%
 	mkdir -p $(dir $@)
 	cp $^ $@
 
 dest/index.html: dest/en/index.html
 	cp $^ $@
-
-pics: $(pics_dest)

@@ -1,4 +1,5 @@
 title: bbcode
+description: Kommandolinjeredskap som prosesserer BB-kode.
 
 [b]bbcode[/b] er et kommandolinjeverktøy jeg skrev i programmeringspråket C for å generere HTML-innhold til denne nettsiden. Den tar inn filer skrevet i BBCode, et markeringsspråk brukt på mange nettfora, og gir tilbake HTML-kode som kan inkluderes i et HTML-dokument, som det du leser.
 

@@ -1,4 +1,5 @@
 title: textworld
+description: telnet server that presents a virtually infinite text canvas.
 
 [b]textworld[/b] is a network server program that you can connect to with telnet, a command-line program available on most operating systems. When you connect you will be met with a virtually infinite canvas of text that you can edit along with other people who have connected.
 

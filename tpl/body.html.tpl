@@ -1,8 +1,8 @@
 -output: html
 title: Untitled
+description: Homepage of Ivar Jarlsby.
 lang: en
 lang-other: no
-lang-description: Homepage of Ivar Jarlsby.
 lang-about-me: about me
 
 <!doctype html>
@@ -16,7 +16,7 @@ lang-about-me: about me
 		<meta name="viewport"
 		      content="width=device-width, initial-scale=1.0">
 		<meta name="description"
-		      content="<[lang-description]>">
+		      content="<[description]>">
 	</head>
 	<body>
 		<div class="siteinfo">
