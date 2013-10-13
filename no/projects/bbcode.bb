@@ -6,7 +6,7 @@ description: Kommandolinjeredskap som prosesserer BB-kode.
 Det var hovedsakelig en morsom øvelse ettersom det allerede finnes lignende verktøy, men ingen for BBCode som jeg vet om.
 
 [b]Nedlastinger[/b]
-Kildekode: [url=/files/bbcode-0.01.tar.gz]bbcode-0.01.tar.gz[/url]
+Kildekode: [url=/files/bbcode-0.02.tar.gz]bbcode-0.02.tar.gz[/url]
 
 Den nyeste kildekoden er tilgjengelig på [url=https://github.com/ivartj/bbcode]Github[/url].
 
@@ -21,6 +21,7 @@ Så kan du skrive den følgende BB-koden:
 [code]
 [i]skrå skrift, [b]fet og skrå skrift[/i], fet skrift.[/b]
 [/code]
+
 og få tilbake denne HTML-en
 [code]
 <em>skrå skrift, <strong>fet og skrå skrift</strong></em><strong>, fet skrift.</strong>

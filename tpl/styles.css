@@ -89,11 +89,11 @@ h2 {
 	font-size: 1.1em;
 }
 
-.info {
+.box {
 	display: table;
-	border: 1px solid black;
-	background-color: #ffa;
-	padding: 1em;
+	border: 1px solid #aaa;
+	background-color: #f5f5f5;
+	padding: 0.5em;
 }
 
 .center {
@@ -126,8 +126,8 @@ a.lang:hover .nohover, a.long:focus .nohover {
 }
 
 pre {
-	border: 1px solid orange;
-	background-color: white;
+	border: 1px solid #aaa;
+	background-color: #f5f5f5;
 	padding: 0 1em 1em 1em;
 }
 

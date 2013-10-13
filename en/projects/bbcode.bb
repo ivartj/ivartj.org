@@ -6,7 +6,7 @@ description: Command-line tool to process BBCode.
 This was mostly a fun exercise as there already exist markup tools for the same purpose, although none for BBCode that I know of.
 
 [b]Downloads[/b]
-Source code tarball: [url=/files/bbcode-0.01.tar.gz]bbcode-0.01.tar.gz[/url]
+Source code tarball: [url=/files/bbcode-0.02.tar.gz]bbcode-0.02.tar.gz[/url]
 
 You can get the latest code from the [url=https://github.com/ivartj/bbcode]Github repository[/url].
 
