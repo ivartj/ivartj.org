@@ -1,5 +1,3 @@
-title: About me
-
 My name is Ivar Trygve Jarlsby. I like computers.
 
 Email:

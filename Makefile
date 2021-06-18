@@ -1,78 +1,90 @@
-pics_ext = jpg png
-assets_ext = css $(pics_ext)
-tpl_ext = $(patsubst tpl/%.tpl,%,$(wildcard tpl/*.tpl))
+.DELETE_ON_ERROR:
 
-tpl = $(wildcard tpl/*.tpl)
-tpl_no = $(wildcard tpl/no/*.tpl)
+assets_src := $(shell find assets -type f)
+assets_dest := $(patsubst assets/%,dest/%,$(assets_src))
 
-pics_src = $(shell find pics -name '' $(patsubst %,-or -name *.%,$(pics_ext)))
-pics_dest = $(patsubst %,dest/%,$(pics_src))
+files_src := $(shell find files -type f)
+files_dest := $(patsubst files/%,dest/files/%,$(files_src))
 
-en_tpl_src = $(shell find en -name '' $(patsubst %,-or -name *.%,$(tpl_ext)))
-no_tpl_src = $(shell find no -name '' $(patsubst %,-or -name *.%,$(tpl_ext)))
+bbcode_src := $(shell find content -iname '*.bb' -type f)
+html_body_build := $(patsubst content/%.bb,build/%.body.html,$(bbcode_src))
+html_dest := $(patsubst build/%.body.html,dest/%.html,$(html_body_build)) dest/index.html
 
-no_tpl_dest = $(foreach ext,${tpl_ext},$(patsubst no/%.${ext},dest/no/%.html,${no_tpl_src}))
-en_tpl_dest = $(foreach ext,${tpl_ext},$(patsubst en/%.${ext},dest/en/%.html,${en_tpl_src}))
-
-assets_src = $(shell find tpl -name '' $(patsubst %,-or -name *.%,$(assets_ext)))
-assets_dest = $(patsubst tpl/%,dest/%,$(assets_src))
-
-files_dest = $(patsubst files/%,dest/files/%,$(wildcard files/*))
-
-all: debug dest/index.html en-tpl no-tpl assets pics files
+all: debug assets files html
 
 debug:
-	@echo en_tpl_src=${en_tpl_src}
-	@echo no_tpl_src=${no_tpl_src}
+	@echo $(html_body_build)
 
 clean:
 	rm -rf dest/*
+	rm -rf build/*
 
-no-tpl: $(no_tpl_dest)
+# Assets
 
-en-tpl: $(en_tpl_dest)
-
-dest/no/%.html: no/%.bb ${tpl} ${tpl_no}
-	mkdir -p $(dir $@)
-	tpl -T tpl/no -T tpl -D doc-path=$(patsubst dest/no/%,%,$@) $(patsubst dest/no/%.html,no/%.*,$@) -o $@
-
-dest/no/%.html: no/%.md ${tpl} ${tpl_no}
-	mkdir -p $(dir $@)
-	tpl -T tpl/no -T tpl -D doc-path=$(patsubst dest/no/%,%,$@) $(patsubst dest/no/%.html,no/%.*,$@) -o $@
-
-dest/no/%.html: no/%.body.html ${tpl} ${tpl_no}
-	mkdir -p $(dir $@)
-	tpl -T tpl/no -T tpl -D doc-path=$(patsubst dest/no/%,%,$@) $(patsubst dest/no/%.html,no/%.*,$@) -o $@
-
-dest/en/%.html: en/%.bb ${tpl}
-	mkdir -p $(dir $@)
-	tpl -T tpl -D doc-path=$(patsubst dest/en/%,%,$@) $(patsubst dest/en/%.html,en/%.*,$@) -o $@
-
-dest/en/%.html: en/%.md ${tpl}
-	mkdir -p $(dir $@)
-	tpl -T tpl -D doc-path=$(patsubst dest/en/%,%,$@) $(patsubst dest/en/%.html,en/%.*,$@) -o $@
-
-dest/en/%.html: en/%.body.html ${tpl}
-	mkdir -p $(dir $@)
-	tpl -T tpl -D doc-path=$(patsubst dest/en/%,%,$@) $(patsubst dest/en/%.html,en/%.*,$@) -o $@
-
+.PHONY: assets
 assets: $(assets_dest)
 
+dest/%: assets/%
+	mkdir -p $(dir $@)
+	cp $^ $@
+
+# Files
+
+.PHONY: files
 files: $(files_dest)
 
 dest/files/%: files/%
 	mkdir -p $(dir $@)
 	cp $^ $@
 
-dest/%: tpl/%
+# Content
+
+.PHONY: html
+html: $(html_dest)
+
+dest/index.html: build/index.body.html content/en/index.meta.json en-default-meta.json template.xq
 	mkdir -p $(dir $@)
-	cp $^ $@
+	basex -i $(word 1,$^) \
+		-bmeta-file-path=$(word 2,$^) \
+		-bdefault-meta-file-path=$(word 3,$^) \
+		-broot-path=. \
+		-bdoc-path=index.html \
+		template.xq > $@
 
-pics: $(pics_dest)
-
-dest/pics/%: pics/%
+dest/en/%.html: build/en/%.body.html content/en/%.meta.json en-default-meta.json template.xq
 	mkdir -p $(dir $@)
-	cp $^ $@
+	basex -i $(word 1,$^) \
+		-bmeta-file-path=$(word 2,$^) \
+		-bdefault-meta-file-path=$(word 3,$^) \
+		-broot-path=$(shell realpath -m --relative-to $(dir $@) dest/) \
+		-bdoc-path=$(shell realpath -m --relative-to dest/en/ $@) \
+		template.xq > $@
 
-dest/index.html: dest/en/index.html
-	cp $^ $@
+dest/no/%.html: build/no/%.body.html content/no/%.meta.json no-default-meta.json template.xq
+	mkdir -p $(dir $@)
+	basex -i $(word 1,$^) \
+		-bmeta-file-path=$(word 2,$^) \
+		-bdefault-meta-file-path=$(word 3,$^) \
+		-broot-path=$(shell realpath -m --relative-to $(dir $@) dest/) \
+		-bdoc-path=$(shell realpath -m --relative-to dest/no/ $@) \
+		template.xq > $@
+
+# Intermediate build files
+
+.PHONY: html-body
+html-body: $(html_body_build)
+
+build/index.body.html: content/en/index.bb
+	mkdir -p $(dir $(word 1,$@))
+	echo '<?xml version="1.0"?>' > $@
+	echo '<body xml:space="preserve">' >> $@
+	bbcode --root-path $(shell realpath -m --relative-to $(dir $@) build/) $(word 1,$^) >> $@
+	echo '</body>' >> $@
+
+build/%.body.html: content/%.bb
+	mkdir -p $(dir $(word 1,$@))
+	echo '<?xml version="1.0"?>' > $@
+	echo '<body xml:space="preserve">' >> $@
+	bbcode --root-path $(shell realpath -m --relative-to $(dir $@) build/) $(word 1,$^) >> $@
+	echo '</body>' >> $@
+

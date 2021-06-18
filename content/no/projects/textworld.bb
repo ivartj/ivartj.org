@@ -1,6 +1,3 @@
-title: textworld
-description: telnet-tjener som presenterer et uendelig tekst-lerret.
-
 [b]textworld[/b] er et nettverkstjenerprogram som man kan koble til med telnet, et kommandolinjeverktøy tilgjengelig i de fleste operativssystemer. Når man kobler opp vil man bli møtt med et tilnærmet uendelig lerret av tekst som man kan skrive på sammen med andre som har koblet på.
 
 [b]Nedlastinger[/b]

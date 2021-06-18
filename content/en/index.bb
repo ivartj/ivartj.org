@@ -1,5 +1,3 @@
-title: Ivar's Homepage
-
 [b]Projects[/b]
 
 [url=/en/projects/bbcode.html]bbcode[/url] - a BBCode markup to HTML command-line tool.

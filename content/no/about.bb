@@ -1,5 +1,3 @@
-title: Om meg
-
 Mitt navn er Ivar Trygve Jarlsby. Jeg liker data.
 
 Epost:

@@ -1,5 +1,3 @@
-title: Ivars hjemmeside
-
 [b]Prosjekt[/b]
 
 [url=/no/projects/bbcode.html]bbcode[/url] - en kommandolinjeverktøy for å generere HTML fra BBCode-markering.
