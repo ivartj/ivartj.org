@@ -14,6 +14,13 @@ declare variable $doc-path external;
 let $default-meta := fn:json-doc($default-meta-file-path)
 let $instance-meta := fn:json-doc($meta-file-path)
 let $meta := map:merge(($instance-meta, $default-meta))
+
+let $selected := map {
+  "no" : if ($meta?lang = "no") then "selected" else "",
+  "en" : if ($meta?lang = "en") then "selected" else "",
+  "about" : if ($doc-path = "about.html") then "selected" else ""
+}
+
 return
 <html lang="{$meta?lang}">
   <head>
@@ -34,9 +41,9 @@ return
           <a href="{$root-path}/{$meta?lang}/index.html" class="sitetitle left">Ivar Trygve Jarlsby</a>
         </div>
         <div class="right menu">
-          <a href="{$root-path}/{$meta?lang}/about.html">
-            {$meta?lang-about-me}
-          </a><!-- no space --><a class="lang" href="{$root-path}/{$meta?lang-other}/{$doc-path}"><span class="nohover">{$meta?lang}</span><span class="onhover">{$meta?lang-other}</span></a>
+          <a class="{$selected?about}" href="{$root-path}/{$meta?lang}/about.html">{$meta?lang-about-me}</a>
+          <a lang="no" class="{$selected?no}" href="{$root-path}/no/{$doc-path}">norsk</a>
+          <a lang="en" class="{$selected?en}" href="{$root-path}/en/{$doc-path}">english</a>
         </div>
         <div class="clearboth"></div>
       </header>

@@ -71,18 +71,30 @@ article {
 .siteinfo a {
 	background-color: #900;
 	padding: 0.5em 0.5em;
-	display: inline-block;
 	border-width: 0 1px;
 	border-style: solid;
 	border-color: #f55;
 }
 
+.right.menu {
+  display: flex;
+}
+
 .right.menu a {
 	margin-left: -1px;
+  display: block;
 }
 
 .left.menu a {
 	margin-right: -1px;
+  display: block;
+}
+
+.menu a.selected {
+  background-color: white;
+  color: red;
+  position: relative;
+  bottom: -1px;
 }
 
 h2 {

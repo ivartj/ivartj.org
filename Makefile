@@ -13,7 +13,6 @@ html_dest := $(patsubst build/%.body.html,dest/%.html,$(html_body_build)) dest/i
 all: debug assets files html
 
 debug:
-	@echo $(html_body_build)
 
 clean:
 	rm -rf dest/*
