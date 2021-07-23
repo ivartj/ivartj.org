@@ -10,6 +10,8 @@ bbcode_src := $(shell find content -iname '*.bb' -type f)
 html_body_build := $(patsubst content/%.bb,build/%.body.html,$(bbcode_src))
 html_dest := $(patsubst build/%.body.html,dest/%.html,$(html_body_build)) dest/index.html
 
+updates_src := $(wildcard content/en/updates/*.bb)
+
 all: debug assets files html
 
 debug:
@@ -86,4 +88,18 @@ build/%.body.html: content/%.bb
 	echo '<body xml:space="preserve">' >> $@
 	bbcode --root-path $(shell realpath -m --relative-to $(dir $@) build/) $(word 1,$^) >> $@
 	echo '</body>' >> $@
+
+build/en/updates.json: $(updates_src)
+	mkdir -p $(dir $@)
+	rm -f $@
+	for src in $^; do \
+		jq -n '{title: ($$date + " update"), path: $$path, published: ($$date + "T12:00:00+01:00"), content: $$content}' \
+			--arg date "$$(echo $$src | sed -E -e 's/.+\/([0-9]{4}-[0-9]{2}-[0-9]{2})\.bb/\1/')" \
+			--arg path "$$(echo $$src | sed -E -e 's/^content\///' -e 's/\.bb$$/.html/')" \
+			--arg content "$$(bbcode < $$src)" ; \
+	done | jq -s . > $@
+
+dest/en/atom.xml: build/en/updates.json atom.xq
+	basex -bupdates-file=$(word 1,$^) $(word 2,$^) > $@
+	jing -c atom.rng $@
 

@@ -1,4 +1,6 @@
-I upload this as an example of a site made using my tpl[1] and bbcode[2] software.
+Source for generating the static site content of [ivartj.org](http://ivartj.org/).
+It previously used my [tpl](https://github.com/ivartj/tpl) template system, but
+I migrated to using XQuery with BaseX as a more well-established, versatile and
+standardized solution. I continue to use my [BBCode
+processor](https://github.com/ivartj/bbcode) for generating HTML content.
 
-[1] tpl: https://github.com/ivartj/tpl
-[2] bbcode: https://github.com/ivartj/bbcode
